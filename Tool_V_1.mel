@@ -1,0 +1,435 @@
+//OWNER_____@SANKLAJS_Jai_Kishan_Sankla
+global proc Tool_V_1()
+{
+
+
+if (`window -exists mywindow`) {
+    deleteUI mywindow;
+}
+window -title "Tool_V_1" -toolbox true -bgc 1.0 1.0 1.0  -wh 90 500  mywindow ;
+columnLayout;
+
+//MENU//////////////////
+
+
+
+   separator -height 20 -style "out";
+   
+  string $cH1 = `columnLayout  -adj true`;
+//modeling////////
+frameLayout -label "modeling" -cll 1 -cl 0;
+
+gridLayout -nc 3 -cwh 90 30 ;
+
+//Bend_Bridge
+button  -bgc 0.3 0.5 0.9 -label "Bend_Bridge" -c "Bend_Bridge" ;
+
+//EDGE to spline
+button -bgc 0.3 0.5 0.9 -label "EDGE_to_spline" -c "EDGE_to_spline" ;
+
+
+//Path_to_surface
+button  -bgc 0.3 0.5 0.9 -label "Path_to_surface" -c "Path_to_surface" ;
+
+//Reverse_NOR
+button  -bgc 0.3 0.5 0.9 -label "Reverse_NOR" -c "Reverse_NOR" ;
+
+//alternate edges
+button  -bgc 0.3 0.5 0.9 -label "Sel_alt_edge" -c "Sel_alt_edge" ;
+
+//Edge flow
+button -bgc 0.3 0.5 0.9 -label "Edge_Flow" -c "Edge_Flow" ;
+
+
+//Avrage vertex
+
+button -bgc 0.3 0.5 0.9 -label "Average_vertex" -c "Average_vertex" ;
+
+
+
+
+//Smoothing groups
+
+button -bgc 0.3 0.5 0.9 -label "Smoothing_grp" -c "Smoothing_grp" ;
+
+//CONVERT_QUAD
+button  -bgc  0.3 0.5 0.9 -label "CON_5s_QUAD" -c "CON_5s_QUAD" ;
+
+//Combine_mesh
+button  -bgc 0.3 0.5 0.9 -label "Combine_mesh" -c "Combine_mesh" ;
+
+//Seperate_mesh
+button  -bgc 0.3 0.5 0.9 -label "Seperate_mesh" -c "Seperate_mesh" ;
+
+//Bevel
+button  -bgc  0.3 0.5 0.9 -label "Bevel" -c "Bevel" ;
+//CON_2_QUAD
+button  -bgc  0.3 0.5 0.9 -label "CON_2_QUAD" -c "CON_2_QUAD" ;
+//Remesh
+button  -bgc  0.3 0.5 0.9 -label "Remesh" -c "Remesh" ;
+//Poly_Reduce
+button  -bgc  0.3 0.5 0.9 -label "Poly_Reduce" -c "Poly_Reduce" ;
+//centerPivot///
+button  -bgc  0.5 0.5 0.9 -label "centerPivot" -c "centerPivot" ;
+
+//CenterPivotworld///
+button  -bgc  0.5 0.5 0.9 -label "Pivot_to_world" -c "Pivot_to_world" ;
+
+//Pivot_to_Mesh
+button  -bgc 0.5 0.5 0.9 -label "Pivot_to_Mesh" -c "Pivot_to_Mesh" ;
+
+//History///
+button  -bgc  1.0 0.5 0.2 -label "History" -c "History" ;
+
+//DELALL_FT///
+button  -bgc  1.0 0.5 0.2 -label "DELALL_FT" -c "DELALL_FT" ;
+
+//FreeZTrans
+button  -bgc 1.0 0.5 0.2 -label "FreeZTrans" -c "FreeZTrans" ;
+//Miroor_X+
+button  -bgc 0.9 0 0 -label "X_Positive" -c "X_Positive" ;
+
+//Miroor_Y+
+button  -bgc 0.5 0.7 0.1 -label "Y_Positive" -c "Y_Positive" ;
+
+//Miroor_Z+
+button  -bgc 0 0.5 0.9 -label "Z_Positive" -c "Z_Positive" ;
+
+//Miroor_X-
+button  -bgc 0.9 0 0 -label "X_Negative" -c "X_Negative" ;
+
+
+//Miroor_Y-
+button  -bgc 0.5 0.7 0.1 -label "Y_Negative" -c "Y_Negative" ;
+
+
+//Miroor_Z-
+button  -bgc 0 0.5 0.9 -label "Z_Negative" -c "Z_Negative" ;
+
+//
+       setParent $cH1;
+
+
+separator -height 20 -style "out";
+
+//UV////////
+frameLayout -l "UV" -cll 1 -cl 0;
+
+gridLayout -nc 3 -cwh 90 30;
+
+//Transfer_UV_Attr
+button-bgc 0.2 0.5 0.2 -label "Transfer_UV_Attr" -c "Transfer_UV_Attr" ; 
+
+//UNFOLD&LAYOUT
+button-bgc 0.2 0.5 0.2 -label "UNFOLD_LAY" -c "UNFOLD_LAY" ;
+
+///AutoUV_LAY
+button-bgc 0.2 0.5 0.2 -label "AutoUV_LAY" -c "AutoUV_LAY" ;
+
+///UVEDITOR
+button-bgc 0.2 0.5 0.2 -label "UVEDITOR" -c "UVEDITOR" ;
+
+///CUT/SEW
+button-bgc 0.2 0.5 0.2 -label "CUT_SEW" -c "CUT_SEW" ;
+
+///UNFOLD
+button-bgc 0.2 0.5 0.2 -label "UNFOLD" -c "UNFOLD" ;
+
+
+//Show window///////////////////////////
+
+
+showWindow mywindow;
+onCloseCommand;
+saveOptionBoxSize();
+ }
+////proc 
+
+//Poly_Reduce
+global proc Poly_Reduce()
+{
+polyReduce -ver 1 -p 50 ;
+
+}
+//Remesh
+global proc Remesh()
+{
+polyRemesh;
+setAttr "polyRemesh1.reduceThreshold" 0;
+setAttr "polyRemesh1.smoothStrength" 0;
+}
+
+//CON_2_QUAD
+global proc CON_2_QUAD()
+{
+polyTriangulate -ch 1;
+polyQuad  -a 30 -kgb 1 -ktb 1 -khe 1 -ws 1 -ch 1 ;
+
+}
+
+//Path_to_surface
+global proc Path_to_surface()
+{
+extrude -ch true -rn false -po 0 -et 2 -ucp 0 -fpt 1 -upn 1 -rotation 0 -scale 1 -rsp 1  ;
+setAttr "extrude1.useComponentPivot" 1;
+
+}
+
+
+//Reverse_NOR
+global proc Reverse_NOR()
+{
+polyNormal -normalMode 0 -userNormalMode 0 -ch 1;
+
+}
+
+//Bend_Bridge
+global proc Bend_Bridge()
+{
+polySelectEdgesEveryN "edgeRing" 1;
+polyBridgeEdge -ch 1 -divisions 5 -twist 0 -taper 1 -curveType 1 -smoothingAngle 30 -direction 0 -sourceDirection 0 -targetDirection 0;
+polySoftEdge -a 180 -ch 1 pCube14;
+select -cl;
+
+}
+
+//Bevel
+global proc Bevel()
+{
+polyBevel3 -fraction 0.2 -offsetAsFraction 1 -autoFit 1 -depth 1 -mitering 0 -miterAlong 0 -chamfer 1 -segments 2 -worldSpace 1 -smoothingAngle 30 -subdivideNgons 1 -mergeVertices 0 -mergeVertexTolerance 0.0001 -miteringAngle 180 -angleTolerance 180 -ch 1 ;
+
+}
+//Altternate edge
+global proc Sel_alt_edge()
+{
+  polySelectEdgesEveryN "edgeRing" 2;
+
+}
+//EDge flow
+global proc Edge_Flow()
+{
+ polyEditEdgeFlow -constructionHistory 1 -adjustEdgeFlow 1;
+
+}
+
+//Avrage vertex
+global proc Average_vertex() 
+{
+ polyAverageVertex -i 10 -ch 1;
+
+}
+
+
+//EDGE_to_spline
+global proc EDGE_to_spline()
+{
+ //polyToCurve -form 2 -degree 3 -conformToSmoothMeshPreview 1;   
+polyToCurve -form 2 -degree 3;
+DeleteHistory;
+DeleteAllHistory;
+FreezeTransformations;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+
+}
+
+//Smoothing_grp
+global proc Smoothing_grp()
+{
+    //select -r ;
+polyPerformAction "polySoftEdge -a 30" e 0;
+polySoftEdge -a 30 -ch 1 ;
+// Result: polySoftEdge7 // 
+polySoftEdge -a 30 -ch 1 ;
+// Result: polySoftEdge8 // 
+// Result: polySoftEdge -a 30 -ch 1 //
+
+
+}
+global proc CON_5s_QUAD()
+{
+bt_polyNSidedToQuad;
+
+
+}
+
+//Combine_mesh
+global proc Combine_mesh()
+{
+    
+polyUnite -ch 1 -mergeUVSets 1 -objectPivot ;
+}
+
+//Seperate_mesh
+global proc Seperate_mesh()
+{
+    
+ExtractFace;
+
+}
+
+
+//Centerpivot
+global proc centerPivot()
+{
+ 
+CenterPivot;
+
+}
+
+
+
+//Pivot_to_world
+global proc Pivot_to_world()
+{
+ 
+FreezeTransformations;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+ResetTransformations;
+performResetTransformations(0);
+
+}
+
+//Pivot_to_Mesh
+global proc Pivot_to_Mesh()
+{
+ 
+MatchPivots;
+matchTransform -piv;
+
+}
+
+//History
+global proc History()
+{
+DeleteHistory;
+
+}
+
+//DELALL_FT
+global proc DELALL_FT()
+{
+ 
+DeleteHistory;
+DeleteAllHistory;
+FreezeTransformations;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+
+}
+
+//FreeZTrans
+global proc FreeZTrans()
+{
+ 
+FreezeTransformations;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+
+}
+
+//X_Positive
+global proc X_Positive()
+{
+ 
+polyMirrorFace  -cutMesh 1 -axis 0 -axisDirection 0 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1;
+
+}
+
+//X_Negative
+global proc X_Negative()
+{
+
+polyMirrorFace  -cutMesh 1 -axis 0 -axisDirection 1 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 ;
+}
+//Z_Positive
+global proc Z_Positive()
+{
+    
+polyMirrorFace  -cutMesh 1 -axis 2 -axisDirection 0 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 ;
+
+}
+
+//Z_Negative
+global proc Z_Negative()
+{
+    
+polyMirrorFace  -cutMesh 1 -axis 2 -axisDirection 1 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 ;
+
+}
+
+//Y_Positive
+global proc Y_Positive()
+{
+
+polyMirrorFace  -cutMesh 1 -axis 1 -axisDirection 0 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 ;
+
+}
+
+//Mirror_Y-
+global proc Y_Negative()
+{
+
+polyMirrorFace  -cutMesh 1 -axis 1 -axisDirection 1 -mergeMode 1 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 ;
+
+}
+
+//Transfer_UV_Attr
+
+global proc Transfer_UV_Attr()
+
+{
+transferAttributes -transferPositions 0 -transferNormals 0 -transferUVs 2 -transferColors 2 -sampleSpace 4 -sourceUvSpace "map1" -targetUvSpace "map1" -searchMethod 3-flipUVs 0 -colorBorders 1 ;
+
+}
+
+//UNFOLD_LAYOUT
+
+global proc UNFOLD_LAY()
+
+{
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+CenterPivot;
+texOrientShells;
+u3dUnfold -ite 1 -p 0 -bi 1 -tf 1 -ms 1024 -rs 0; 
+u3dLayout -res 256 -rot 1 -scl 1 -spc 0.0001953125 -box 0 1 0 1 ;
+
+}
+//AutoUV_LAY
+global proc AutoUV_LAY()
+
+{
+polyAutoProjection -lm 0 -pb 0 -ibd 1 -cm 0 -l 2 -sc 1 -o 1 -p 6 -ps 0.2 -ws 0 ;
+u3dUnfold -ite 1 -p 0 -bi 1 -tf 1 -ms 1024 -rs 0; 
+u3dLayout -res 256 -rot 1 -scl 1 -spc 0.0001953125 -box 0 1 0 1 ;
+
+}
+
+//UVEDITOR
+global proc UVEDITOR()
+
+{
+TextureViewWindow;
+unlocalizedPanelLabel "UV Editor";
+}
+
+//CUT_SEW
+global proc CUT_SEW()
+
+{
+SetCutSewUVTool;
+textureWindowSetCheckerMapApplyOptionsUpdateTexEditor 0;
+textureWindow -edit  -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0  -checkerDensity 64  -checkerDrawTileLabels 1  -checkerTileLabelColor 1 1 1 polyTexturePlacementPanel1;
+}
+
+//UNFOLD
+global proc UNFOLD()
+
+{
+select ;
+
+texOrientShells;
+u3dUnfold -ite 1 -p 0 -bi 1 -tf 1 -ms 1024 -rs 0;
+performPolyLayoutUV 0;
+u3dLayout -res 256 -rot 1 -scl 1 -spc 0.0009765625 -mar 0.0009765625 -box 0 1 0 1;
+
+select -cl ;
+
+}
